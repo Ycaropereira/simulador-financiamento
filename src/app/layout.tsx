@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://simulador-financiamento.vercel.app"),
+  metadataBase: new URL("https://simulador-financiamento-seven.vercel.app"),
   title: "Simulador de Financiamento",
   description:
     "Simule financiamento (PRICE e SAC), calcule parcela, total pago e visualize a evolução do saldo devedor.",

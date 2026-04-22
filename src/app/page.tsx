@@ -14,6 +14,8 @@ import {
 
 type Sistema = "PRICE" | "SAC";
 
+type TipoFinanciamento = "IMOVEL" | "VEICULO";
+
 type Parcela = {
   mes: number;
   parcela: number;
@@ -94,6 +96,7 @@ function calcularTabelaSac(params: {
 }
 
 export default function Home() {
+  const [tipo, setTipo] = useState<TipoFinanciamento>("IMOVEL");
   const [sistema, setSistema] = useState<Sistema>("PRICE");
   const [valorBem, setValorBem] = useState("300000");
   const [entrada, setEntrada] = useState("60000");
@@ -144,6 +147,24 @@ export default function Home() {
     setTabela(novaTabela);
   }
 
+  function aplicarPreset(novoTipo: TipoFinanciamento): void {
+    setTipo(novoTipo);
+    setTabela([]);
+
+    if (novoTipo === "IMOVEL") {
+      setValorBem("300000");
+      setEntrada("60000");
+      setTaxaMensal("1");
+      setPrazoMeses("360");
+      return;
+    }
+
+    setValorBem("80000");
+    setEntrada("10000");
+    setTaxaMensal("1.5");
+    setPrazoMeses("60");
+  }
+
   const tabelaPreview = tabela.slice(0, 24);
 
   return (
@@ -164,6 +185,22 @@ export default function Home() {
             <h2 className="text-xl font-semibold text-zinc-900">Dados do financiamento</h2>
 
             <div className="mt-6 grid gap-5">
+              <label className="grid gap-2">
+                <span className="text-sm font-medium text-zinc-700">Tipo</span>
+                <select
+                  className="h-12 rounded-xl border border-zinc-300 bg-white px-4 text-zinc-900 shadow-sm outline-none ring-0 transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
+                  value={tipo}
+                  onChange={(e) => aplicarPreset(e.target.value as TipoFinanciamento)}
+                >
+                  <option value="IMOVEL">Imóvel</option>
+                  <option value="VEICULO">Veículo</option>
+                </select>
+                <span className="text-xs text-zinc-500">
+                  Dica: Imóvel costuma usar prazos longos (ex: 360 meses). Veículo costuma
+                  variar entre 12 e 72 meses.
+                </span>
+              </label>
+
               <label className="grid gap-2">
                 <span className="text-sm font-medium text-zinc-700">Sistema</span>
                 <select
